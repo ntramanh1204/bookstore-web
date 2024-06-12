@@ -1,0 +1,6 @@
+projectKey=dogngoc
+serverUrl=http://localhost:9000
+serverVersion=10.5.1.90531
+dashboardUrl=http://localhost:9000/dashboard?id=dogngoc
+ceTaskId=7909e651-56a0-419f-b9d1-a49c07fb6a19
+ceTaskUrl=http://localhost:9000/api/ce/task?id=7909e651-56a0-419f-b9d1-a49c07fb6a19
