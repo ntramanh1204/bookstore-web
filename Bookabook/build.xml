@@ -1,86 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="Bookabook" default="default" basedir="." xmlns:sonar="antlib:org.sonar.ant">
+<project name="Bookabook" default="jar" basedir=".">
     <description>Builds, tests, and runs the project Bookabook.</description>
-    <import file="nbproject/build-impl.xml"/>
-    <property name="sonar.projectKey" value="dogNgoc" />
-    <property name="sonar.sources" value="src/java web" />
-    <property name="sonar.host.url" value="http://localhost:9000" />
-    
-    <!-- Define the 'sonar' namespace prefix -->
-    <target name="sonar">
-        <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
-            <!-- <classpath path="${lib}/sonarqube-ant-task-2.7.1.1951.jar" /> -->
-            <classpath path="/mnt/d/workspace/code/java/prj301/assignment/'PRJ Assignment-20240510T022549Z-001'/'prj assignment'/bookabook/lib/sonarqube-ant-task-2.7.1.1951.jar" />
-        </taskdef>
-        <!-- Use the 'sonar' namespace prefix for the SonarQube Ant task -->
-        <sonar:sonar />
+
+    <property name="src.dir" location="src"/>
+    <property name="build.dir" location="build"/>
+    <property name="dist.dir" location="dist"/>
+    <property name="ant.project.name" value="Bookabook"/>
+    <property name="web.dir" location="web"/>
+    <property name="lib.dir" location="lib"/>
+    <property name="main.class" value="your.package.MainClass"/>
+    <property name="tomcat.dir" value="D:/apache-tomcat-11.0.0-M21"/>
+
+    <path id="project.classpath">
+        <pathelement location="${build.dir}/classes"/>
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${build.dir}/classes"/>
+        <mkdir dir="${dist.dir}"/>
     </target>
 
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}/classes" includeantruntime="false">
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
 
-    <!--
+    <target name="jar" depends="compile">
+        <jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${build.dir}/classes">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
-
-      -pre-init:                 called before initialization of project properties 
-      -post-init:                called after initialization of project properties 
-      -pre-compile:              called before javac compilation 
-      -post-compile:             called after javac compilation 
-      -pre-compile-single:       called before javac compilation of single file
-      -post-compile-single:      called after javac compilation of single file
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
-      -pre-dist:                 called before archive building 
-      -post-dist:                called after archive building 
-      -post-clean:               called after cleaning build products 
-      -pre-run-deploy:           called before deploying
-      -post-run-deploy:          called after deploying
-
-    Example of pluging an obfuscator after the compilation could look like 
-
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
-
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
+    <target name="war" depends="compile">
+    <war destfile="${dist.dir}/${ant.project.name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+        <classes dir="${build.dir}/classes"/>
+        <lib dir="${lib.dir}"/>
+        <webinf dir="${web.dir}/WEB-INF"/>
+        <metainf dir="${web.dir}/META-INF"/>
+        <fileset dir="${web.dir}" excludes="WEB-INF/** META-INF/**"/> <manifest>
+            <attribute name="Main-Class" value="${main.class}"/>        
+        </manifest>
+    </war>
+</target>
 
 
-    Other way how to customize the build is by overriding existing main targets.
-    The target of interest are: 
+    <target name="run" depends="jar">
+        <java jar="${dist.dir}/${ant.project.name}.jar" fork="true"/>
+    </target>
 
-      init-macrodef-javac:    defines macro for javac compilation
-      init-macrodef-junit:   defines macro for junit execution
-      init-macrodef-debug:    defines macro for class debugging
-      do-dist:                archive building
-      run:                    execution of project 
-      javadoc-build:          javadoc generation 
+    <target name="deploy" depends="war">
+        <!-- Copy the WAR file to Tomcat webapps directory -->
+<copy file="\dist\${war.file}" todir="${tomcat.dir}/webapps"/>
+        <echo message="Deployed to Tomcat!"/>
+    </target>
 
-    Example of overriding the target for project execution could look like 
+    <target name="undeploy">
+        <!-- Undeploy the application from Tomcat -->
+        <delete file="${tomcat.dir}/webapps/${ant.project.name}" failonerror="false"/>
+        <delete dir="${tomcat.dir}/webapps/${ant.project.name}" failonerror="false"/>
+    </target>
 
-        <target name="run" depends="<PROJNAME>-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
 
-    Notice that overridden target depends on jar target and not only on 
-    compile target as regular run target does. Again, for list of available 
-    properties which you can use check the target you are overriding in 
-    nbproject/build-impl.xml file. 
-
-    -->
+    <target name="default" depends="jar"/> 
 </project>

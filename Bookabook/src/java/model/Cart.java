@@ -1,15 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-import model.Product;
-
-/**
- *
- * @author DELL
- */
 public class Cart {
     private int id;
     private String username;
@@ -25,12 +15,6 @@ public class Cart {
 
     public Cart() {
     }
-    
-    
-
-//    public double getTotal(){
-//        return this.quantity * this.product.price;
-//    }
 
     public String getUsername() {
         return username;
@@ -66,8 +50,8 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" + "id=" + id + ", username=" + username + ", product=" + product + ", quantity=" + quantity + '}';
+        return "Cart{" + "id=" + id + ", username=" + username + ", product=" + product + ", quantity=" + quantity
+                + '}';
     }
-    
-    
+
 }

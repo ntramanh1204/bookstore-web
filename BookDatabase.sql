@@ -19,57 +19,65 @@ GO
 
 USE BookDatabase;
 GO
-----------------------------------------------------
-create table Genres(
-	id varchar(255) primary key,
-	genre varchar(255),
-)
 
+-- Create the Genres table
+CREATE TABLE Genres(
+    id VARCHAR(255) PRIMARY KEY,
+    genre VARCHAR(255)
+);
+
+-- Create the Products table
 CREATE TABLE Products(
-    id varchar(255) primary key,
-    title varchar(max),
-    author varchar(max),
-    genreId varchar(255) references Genres(id),
-    price float,
-    quantity int,
-    authorInformation varchar(max),
-    publicationDate varchar(max),
-    bookDescription varchar(max),
-	imagePath varchar(max),
-	rating float,
-)
+    id VARCHAR(255) PRIMARY KEY,
+    title VARCHAR(MAX),
+    author VARCHAR(MAX),
+    genreId VARCHAR(255) REFERENCES Genres(id),
+    price FLOAT,
+    quantity INT,
+    authorInformation VARCHAR(MAX),
+    publicationDate VARCHAR(MAX),
+    bookDescription VARCHAR(MAX),
+    imagePath VARCHAR(MAX),
+    rating FLOAT
+);
 
-create table Accounts(
-	name varchar(max),
-	phone varchar(10),
-	address varchar(max),
-	email varchar(max),
-	username varchar(255) primary key,
-	password varchar(max),
-	isAdmin bit,
-)
+-- Create the Accounts table
+CREATE TABLE Accounts(
+    name VARCHAR(MAX),
+    phone VARCHAR(10),
+    address VARCHAR(MAX),
+    email VARCHAR(MAX),
+    username VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(MAX),
+    isAdmin BIT
+);
 
+-- Create the Cart table
 CREATE TABLE Cart(
-	id int identity(1,1) primary key,
-	username varchar(255) foreign key references Accounts(username),
-	productId varchar(255) foreign key references Products(id),
-	quantity int,
-)
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    username VARCHAR(255) FOREIGN KEY REFERENCES Accounts(username),
+    productId VARCHAR(255) FOREIGN KEY REFERENCES Products(id),
+    quantity INT
+);
 
+-- Create the Orders table
 CREATE TABLE [Orders](
-	id int primary key,
-	date date NULL,
-	username varchar(255) foreign key references Accounts(username),
-	status varchar(255),
-	)
+    id INT PRIMARY KEY,
+    date DATE NULL,
+    username VARCHAR(255) FOREIGN KEY REFERENCES Accounts(username),
+    status VARCHAR(255)
+);
 
+-- Create the OrderDetails table
 CREATE TABLE OrderDetails(
-	id int identity(1,1) primary key,
-	orderId int foreign key references Orders(id),
-	productId varchar(255) foreign key references Products(id),
-	[Quantity] [int] NULL
-	)
-	go
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    orderId INT FOREIGN KEY REFERENCES Orders(id),
+    productId VARCHAR(255) FOREIGN KEY REFERENCES Products(id),
+    [Quantity] INT NULL
+);
+GO
+
+-- Create the trigger for AFTER INSERT on OrderDetails
 CREATE TRIGGER trg_OrderDetails_Insert
 ON OrderDetails
 AFTER INSERT
@@ -83,9 +91,11 @@ BEGIN
     JOIN Orders o ON i.orderId = o.id
     WHERE o.status <> 'cancelled'
 END;
-go
-CREATE TRIGGER trg_OrderDetails_Update
-ON OrderDetails
+GO
+
+-- Create the trigger for AFTER UPDATE on Orders to handle status changes
+CREATE TRIGGER trg_Orders_Update
+ON Orders
 AFTER UPDATE
 AS
 BEGIN
@@ -94,13 +104,15 @@ BEGIN
     BEGIN
         -- Recover the quantity in Products table for cancelled orders
         UPDATE Products
-        SET quantity = p.quantity + i.Quantity
+        SET quantity = p.quantity + od.Quantity
         FROM Products p
-        JOIN inserted i ON p.id = i.productId
-        JOIN Orders o ON i.orderId = o.id
-        WHERE o.status = 'cancelled'
+        JOIN OrderDetails od ON p.id = od.productId
+        JOIN inserted i ON od.orderId = i.id
+        WHERE i.status = 'cancelled';
     END
 END;
+GO
+
 
 
 insert into Accounts values('Tram Anh', '0975571434', 'Hanoi', 'anh@gmail.com', 'tramanh', '123', 1)
