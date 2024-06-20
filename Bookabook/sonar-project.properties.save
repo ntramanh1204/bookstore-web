@@ -1,9 +1,0 @@
-sonar.projectKey=bookagain 
-sonar.projectName=bookagain
-sonar.sources=src
-sonar.host.url=http://localhost:9000
-sonar.token=sqp_2f51ab6658fb03cfb41a4bd97387387e587f
-sonar.projectVersion=“1.0”
-sonar.sources="src"
-sonar.java.binaries="build" 
-sonar.java.libraries="lib/*.jar"
