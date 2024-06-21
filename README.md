@@ -57,8 +57,8 @@ Make sure you have the following installed:
 
 ### Development Environment
 
-- **IDE**: Visual Studio Code
-- **Extension**: Community Server Connector (for connecting to Tomcat)
+- **IDE**: [Visual Studio Code](https://code.visualstudio.com/download)
+- **Extension**: [Community Server Connector](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector) (for connecting to Tomcat)
 
 *Note: To add Tomcat, use the command palette (Ctrl+Shift+P) and type "Servers: Add Local Server."
 Select "Tomcat" and choose the directory where Tomcat is installed (CATALINA_HOME).*
