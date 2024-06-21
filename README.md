@@ -23,7 +23,7 @@ The product page features a selection of books, making it easy for users to disc
 
 ![Product details page with book information and reviews](feature-img/shop-detail.png)
 
-Each book has a dedicated page with detailed information, including author, publisher, description, and customer reviews.
+Each book has a dedicated page with detailed information, including author, publisher, and description.
 
 ### Cart
 ![Cart page with items, showing quantity, name, and total](feature-img/cart.png)
