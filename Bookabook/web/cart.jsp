@@ -102,7 +102,7 @@
                                     </td>
                                     <td>
                                         <p class="mb-0 mt-4">
-                                            <fmt:formatNumber pattern="¤#,##0.00" value="${(p.product.price * p.quantity)}"/>
+                                            <fmt:formatNumber pattern="$#.##0,00" value="${(p.product.price * p.quantity)}"/>
                                         </p>
 
                                     </td>
