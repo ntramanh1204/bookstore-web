@@ -9,8 +9,10 @@
     <property name="ant.project.name" value="Bookabook"/>
     <property name="web.dir" location="web"/>
     <property name="lib.dir" location="lib"/>
-    <property name="main.class" value="your.package.MainClass"/>
-    <property name="tomcat.dir" value="D:/apache-tomcat-11.0.0-M21"/>
+    <!-- <property name="main.class" value="your.package.MainClass"/> -->
+    <!-- <property name="tomcat.dir" value="D:/apache-tomcat-11.0.0-M21"/> -->
+    <property environment="env"/>
+    <property name="tomcat.dir" value="${env.CATALINA_HOME}"/>
 
     <!-- Define the SonarQube project properties -->
     <property name="sonar.host.url" value="http://localhost:9000"/>
@@ -24,7 +26,7 @@
 
 
     <!-- Define SonarQube Acanner for Ant Target -->
-    <target name="sonar">
+    <target name="sonar" depends="compile" if="sonar.available">
         <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
             <classpath path="lib\sonarqube-ant-task-2.7.1.1951.jar"/>
         </taskdef>
@@ -50,9 +52,9 @@
 
     <target name="jar" depends="compile">
         <jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${build.dir}/classes">
-            <manifest>
+            <!-- <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
-            </manifest>
+            </manifest> -->
         </jar>
     </target>
 
@@ -76,7 +78,7 @@
     <target name="deploy" depends="war">
         <!-- Copy the WAR file to Tomcat webapps directory -->
         <copy file="dist\Bookabook.war" todir="${tomcat.dir}/webapps"/>
-        <echo message="Deployed to Tomcat!"/>
+        <!-- <echo message="Deployed to Tomcat!"/> -->
     </target>
 
     <target name="undeploy">

@@ -55,7 +55,7 @@ Make sure you have the following installed:
 
 *Note: When setting up SSMS, set the username and password to `sa` and `123` to match the project's configuration.*
 
-### Development Environment
+### Development Environment (Optional)
 
 - **IDE**: [Visual Studio Code](https://code.visualstudio.com/download)
 - **Extension**: [Community Server Connector](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector) (for connecting to Tomcat)
@@ -65,22 +65,22 @@ Select "Tomcat" and choose the directory where Tomcat is installed (CATALINA_HOM
 
 ## Steps to Run
 
-1. **Clone the repository**: Open the terminal and run
+1. **Clone the repository**: Open the terminal/powershell and run
    ```bash
    git clone https://github.com/ntramanh1204/bookstore-web.git
-   cd bookstore-web
+   cd Bookabook
    ```
 
 2. **Run the SQL Script**: 
    Open `Bookabook.sql` in SSMS and execute it to set up the database schema and initial data.
 
 3. **Start the Tomcat Server**: 
-   In the "SERVERS" view on the left of VS Code, right-click on the Tomcat instance and select "Start."
+   Go to the directory you installed Tomcat and go to `bin` folder, e.g. mine is `D:\apache-tomcat-11.0.0-M21\bin` and run `startup.bat`.
 
-4. **Build and Deploy the Project**: 
+4. **Deploy the Project**: 
    Open the terminal in the project directory and run
    ```bash
-   ant run
+   ant deploy
    ```
 
 5. **Access the Application**: 
@@ -97,5 +97,5 @@ This project is currently a private project and is not licensed for public use. 
 
 ## References
 
-- [Themewagon's Fruitable template](https://themewagon.com/themes/fruitables-free/): Bootstrap 5 template used in this project.
-- [How to write a README](https://github.com/banesullivan/README): Helpful instructions on crafting a good README.
+- [Themewagon's Fruitable template](https://themewagon.com/themes/fruitables-free/): Bootstrap 5 template I used in this project.
+- [How to write a README](https://github.com/banesullivan/README): A helpful instructions that helps me a lot when I crafted this README.
