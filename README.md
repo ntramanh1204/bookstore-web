@@ -14,25 +14,25 @@ This project is an Ant-based Java web application that simulates an online books
 
 ### Browse Books
 
-![Homepage showcasing a selection of books](./feature-img/shop-1.png)
-![Homepage showcasing a selection of books](./feature-img/shop-2.png)
+![Homepage showcasing a selection of books](./docs/feature-img/shop-1.png)
+![Homepage showcasing a selection of books](./docs/feature-img/shop-2.png)
 
 The product page features a selection of books, making it easy for users to discover titles.
 
 #### View Book Details
 
-![Product details page with book information and reviews](feature-img/shop-detail.png)
+![Product details page with book information and reviews](docs/feature-img/shop-detail.png)
 
 Each book has a dedicated page with detailed information, including author, publisher, and description.
 
 ### Cart
-![Cart page with items, showing quantity, name, and total](feature-img/cart.png)
+![Cart page with items, showing quantity, name, and total](docs/feature-img/cart.png)
 
 The shopping cart displays all the items the user has added, along with their quantities and individual prices. Users can update quantities or remove items before proceeding to checkout. The cart also calculates and displays the total order price. 
 
 ### Admin Product Management
 
-![Admin interface for managing book inventory](./feature-img/admin-manage.png)
+![Admin interface for managing book inventory](./docs/feature-img/admin-manage.png)
 
 The admin interface provides tools for managing the book inventory. Administrators can add new books, update existing book details and remove books from the store.
 
